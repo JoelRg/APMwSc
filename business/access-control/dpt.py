@@ -6,7 +6,6 @@ Created on 8/5/2015
 
 from flask import Flask 
 from flask.ext.sqlalchemy import SQLAlchemy 
- 
 app = Flask(__name__) 
 app.config.from_object('config') 
 db = SQLAlchemy(app) 
@@ -23,14 +22,33 @@ class clsDpt(db.model):
         self.namedpt= namedpt
      
     def insertar(self):
-        pass
-    
+        if not(self.buscar()):  # preguntamos si existe otro departamento con el mismo id
+             # insertamos
+            odpt= clsdpt(self.iddpt,self.namedpt)
+            db.session.add(me)
+            db.session.commit()
+            return True 
+        else:
+            return False
+                
     def buscar(self):
-        pass
-    
+        odpt= clsdpt.query.filter_by(iddpt=self.iddpt).first()     
+        if odpt is None:  
+            return False
+        
     def modificar(self):
-        pass
-    
+        if (self.buscar()!=None): # vemos si existe
+            return self.eliminar() and self.insertar()
+        else:
+            return False
+   
     def eliminar(self):
-        pass    
+        if (self.buscar()!=None):  #Consultamos si esta la instancia a eliminar
+            # eliminamos
+            odpt= clsdpt(self.iddpt)
+            db.session.delete(me)
+            db.session.commit()
+            return True 
+        else:
+            return False  
     

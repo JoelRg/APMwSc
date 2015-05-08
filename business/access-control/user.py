@@ -1,43 +1,57 @@
-'''
-Created on 8/5/2015
 
-@author: joel
-'''
+# Librerias a utilizar.
 
-from flask import Flask 
-from flask.ext.sqlalchemy import SQLAlchemy 
- 
-app = Flask(__name__) 
-app.config.from_object('config') 
-db = SQLAlchemy(app) 
- 
-from app import views, models 
+import os
+import sys
 
-class clsuser(db.Model):
-    fullname = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(15), unique=True)
-    password = db.Column(db.String(128), unique=True)
-    email =db.Column(db.String(30), unique=True)
-    iddpt = db.Column(db.Integer, db.ForeignKey('clsdpt.iddpt'))
-    idrole = db.Column(db.Integer, db.ForeignKey('clsrole.idrole'))
+# PATH que permite utilizar al modulo "model.py"
+
+sys.path.append('../../data')
+import model
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+
+# Se realiza la conexion con la bases de datos para realizar cambios en ella.
+DBSession = sessionmaker(bind=model.engine)
+session = DBSession()
+
+class clsuser():
+
+    """
+        @brief Funcion que inserta un nuevo usuario a la base de datos
+        
+        @param 
+                
+        @return True si se inserta. De lo contrario False.
+    """
+        
+    def insertar(self, newFullname, newUsername, newPassword, newEmail, newIddpt, newIdrole):
+        nuevoUsuario=model.User()
+        
+     
     
-    def __init__(self, fullname, username, password, email, iddpt, idrole):
-        self.fullname = fullname
-        self.username = username
-        self.password = password
-        self.email = email
-        self.iddpt = iddpt 
+    def modify_fullname(self, fullname, newFullname):
+        session.query(model.User).filter(model.User.fullname==fullname).\
+        update({'fullname':(newFullname)})
+        session.commit()    
+ 
+                
+    def buscar(self,fullname):
          
-    def insertar(self):
-        pass
-    
-    def buscar(self):
-        pass
-    
+        fullnameEsEntero = (type(fullname) == int)
+        
+        if(fullnameEsEntero):
+            busqueda= session.query(model.User).filter(model.User.fullname==fullname).all()
+            return(buesqueda)
+        
+        return None
+        
     def modificar(self):
         pass
-    
-    def eliminar(self):
-        pass        
-    
+   
+    def eliminar(self, username):
+        session.query(model.User).filter(model.User.username==username).delete()
+        session.commit()
     

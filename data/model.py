@@ -2,13 +2,13 @@
 # Librerias a utilizar.
 
 
-import configuraciondb   
-
+import configdatabase
 
 from sqlalchemy.engine.url import URL
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+
 
 db = declarative_base()
 
@@ -60,7 +60,7 @@ class Role(db):
 #-------------------------------------------------------------------------------
 
 # Se crea el motor que almacenara los datos en el directorio local.
-engine = create_engine(URL(**configuraciondb.DATABASE))    
+engine = create_engine(URL(**configdatabase.DATABASE))    
 
 #Se eliminnan las tablas previamente definidas
 db.metadata.drop_all(engine)
