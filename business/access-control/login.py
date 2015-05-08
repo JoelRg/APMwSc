@@ -10,7 +10,7 @@ import re
  
 class clslogin(object):
     
-    self.regularExp = ('(([0-9a-zA-Z]|[@.#$+*])*[A-Z]([0-9a-zA-Z]|[@.#$+*])*\d([0-9a-zA-Z]|[@.#$+*])*[@.#$+*])|'
+    self.expRegular = ('(([0-9a-zA-Z]|[@.#$+*])*[A-Z]([0-9a-zA-Z]|[@.#$+*])*\d([0-9a-zA-Z]|[@.#$+*])*[@.#$+*])|'
                       '(([0-9a-zA-Z]|[@.#$+*])*[A-Z]([0-9a-zA-Z]|[@.#$+*])*[@.#$+*]([0-9a-zA-Z]|[@.#$+*])*\d)|'
                       '(([0-9a-zA-Z]|[@.#$+*])*\d([0-9a-zA-Z]|[@.#$+*])*[@.#$+*]([0-9a-zA-Z]|[@.#$+*])*[A-Z])|'
                       '(([0-9a-zA-Z]|[@.#$+*])*\d([0-9a-zA-Z]|[@.#$+*])*[A-Z]([0-9a-zA-Z]|[@.#$+*])*[@.#$+*])|'
@@ -18,10 +18,7 @@ class clslogin(object):
                       '(([0-9a-zA-Z]|[@.#$+*])*[@.#$+*]([0-9a-zA-Z]|[@.#$+*])*[A-Z]([0-9a-zA-Z]|[@.#$+*])*\d)'
                       )
 
-    #.------------------------------------------------------------------------------------------.
      
-
-
     def encript(self, value):
         
         oHash=""
@@ -30,18 +27,15 @@ class clslogin(object):
         #Verifico el tamano
         
         if (olength_password >= 8 and olength_password<=16):
-            matchObj = re.search(self.regularExp,value)
+            esValida = re.search(self.expRegular ,value)
  
-            if matchObj: 
+            if esValida: 
                 # uuid es usado para generar numeros random
                 salt = uuid.uuid4().hex
                 # hash
                 oHash= hashlib.sha256(salt.encode() + value.encode()).hexdigest() + ':' + salt
-            else:
-                print('El Password es invalido')
-        
      
-        #si no entra en el if El Password no posee la cantidad de caracteres requerida 
+        # ohash="" si no cumple con la longitud requerida o no es valida
         
         return oHash  
 
