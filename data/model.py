@@ -17,6 +17,7 @@ db = declarative_base()
 # Tabla Usuario.
 
 class User(db):
+    
     __tablename__ = 'user'
     fullname = Column(String(50), unique = True)
     username = Column(String(16), primary_key = True)
@@ -32,10 +33,13 @@ class User(db):
         self.email = email
         self.iddpt = iddpt
         self.idrole = idrole
+        
+        
 
 # Tabla Departamento.
 
 class Dpt(db):
+    
     __tablename__ = 'dpt'
     iddpt = Column(Integer, primary_key = True)
     namedpt = Column(String(50), unique = True)
@@ -44,10 +48,13 @@ class Dpt(db):
     def __init__(self, iddpt, namedpt):
         self.iddpt = iddpt
         self.namedpt = namedpt
+        
+        
 
 # Tabla Role.
 
 class Role(db):
+    
     __tablename__ = 'role'
     idrole = Column(Integer, primary_key = True)
     namerole = Column(String(50), unique = True)
@@ -57,8 +64,8 @@ class Role(db):
         self.idrole = idrole
         self.namerole = namerole
         
-#-------------------------------------------------------------------------------
-
+        
+        
 # Se crea el motor que almacenara los datos en el directorio local.
 engine = create_engine(URL(**configdatabase.DATABASE))    
 
@@ -67,3 +74,5 @@ db.metadata.drop_all(engine)
 
 # Se crean todas las tablas definidas en el motor antes construidos.
 db.metadata.create_all(engine)
+
+
