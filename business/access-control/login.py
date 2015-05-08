@@ -4,11 +4,7 @@ Created on 8/5/2015
 @author: joel
 '''
 
-class MyClass(object):
-    '''
-    classdocs
-    '''
-
+class clslogin(object):
 
     def __init__(self, params):
         '''

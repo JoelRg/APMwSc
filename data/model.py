@@ -1,8 +1,8 @@
-'''
-Created on 8/5/2015
 
-@author: joel
-'''
 
-if __name__ == '__main__':
-    pass
+import os 
+basedir = os.path.abspath(os.path.dirname(__file__)) 
+ 
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 
+'apl.db') 
+SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
