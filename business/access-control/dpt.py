@@ -3,52 +3,60 @@ Created on 8/5/2015
 
 @author: joel
 '''
+# Librerias a utilizar.
 
-from flask import Flask 
-from flask.ext.sqlalchemy import SQLAlchemy 
-app = Flask(__name__) 
-app.config.from_object('config') 
-db = SQLAlchemy(app) 
- 
-from app import views, models 
+import os
+import sys
 
-class clsDpt(db.model):
+# PATH que permite utilizar al modulo "model.py"
+
+sys.path.append('../../data')
+import model
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+
+# Se realiza la conexion con la bases de datos para realizar cambios en ella.
+DBSession = sessionmaker(bind=model.engine)
+session = DBSession()
+
+
+class clsDpt():
     
-    iddpt = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True)
-
-    def __init__(self,iddpt,namedpt):
-        self.iddpt = iddpt 
-        self.namedpt= namedpt
-     
-    def insertar(self):
-        if not(self.buscar()):  # preguntamos si existe otro departamento con el mismo id
-             # insertamos
-            odpt= clsdpt(self.iddpt,self.namedpt)
-            db.session.add(me)
-            db.session.commit()
-            return True 
-        else:
-            return False
-                
-    def buscar(self):
-        odpt= clsdpt.query.filter_by(iddpt=self.iddpt).first()     
-        if odpt is None:  
-            return False
+    def insertar(self,iddpt,namedpt):
         
-    def modificar(self):
-        if (self.buscar()!=None): # vemos si existe
-            return self.eliminar() and self.insertar()
-        else:
-            return False
+        if self.buscar(iddpt) == None:
+            nuevoDepartamento=model.Dpt(iddpt,namedpt)
+            session.add(nuevoDepartamento)
+            session.commit()           
+            return True
+        
+        return False
+                
+    def buscar(self,iddpt):
+         
+        iddptEsEntero = (type(iddpt) == int)
+        
+        if(iddptEsEntero):
+            busqueda= session.query(model.Dpt).filter(model.Dpt.iddpt==iddpt).first()
+            return(buesqueda)
+        
+        return None
+        
+    def modificar(self,iddpt,namedpt):
+        
+        if (self.buscar(iddpt)!=None): # vemos si existe
+            return self.eliminar(iddpt) and self.insertar(iddpt,namedpt) #eliminamos e insertamos
+       
+        return False
    
-    def eliminar(self):
-        if (self.buscar()!=None):  #Consultamos si esta la instancia a eliminar
+    def eliminar(self,iddpt):
+        if (self.buscar(iddpt)!=None):  #Consultamos si esta la instancia a eliminar
             # eliminamos
-            odpt= clsdpt(self.iddpt)
-            db.session.delete(me)
-            db.session.commit()
-            return True 
-        else:
-            return False  
-    
+            session.query(model.Dpt).filter(model.Dpt.iddpt==iddpt).delete()
+            session.commit()
+            return True
+         
+        return False
+

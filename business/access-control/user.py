@@ -27,31 +27,38 @@ class clsuser():
         @return True si se inserta. De lo contrario False.
     """
         
-    def insertar(self, newFullname, newUsername, newPassword, newEmail, newIddpt, newIdrole):
-        nuevoUsuario=model.User()
+    def insertar(self, nuevoFullname, nuevoUsername,nuevoPassword, nuevoEmail, nuevoIddpt, nuevoIdrole):
+        if self.buscar(nuevofullname) == None:
+            nuevoUsuario=model.User(nuevoFullname, nuevoUsername,nuevoPassword, nuevoEmail, nuevoIddpt, nuevoIdrole)
+            session.add(nuevoUsuario)
+            session.commit()           
+            return True
         
+        return False
      
     
-    def modify_fullname(self, fullname, newFullname):
-        session.query(model.User).filter(model.User.fullname==fullname).\
-        update({'fullname':(newFullname)})
-        session.commit()    
- 
+    def modificar(self, fullname,nuevoUsername,nuevoPassword, nuevoEmail, nuevoIddpt, nuevoIdrole):
+        
+        if self.buscar(fullname) != None:
+            return self.eliminar(fullname) and self.insertar(Fullname, nuevoUsername, nuevoPassword, nuevoEmail, nuevoIddpt, nuevoIdrole)
+        
+        return False
                 
     def buscar(self,fullname):
          
         fullnameEsEntero = (type(fullname) == int)
         
         if(fullnameEsEntero):
-            busqueda= session.query(model.User).filter(model.User.fullname==fullname).all()
+            busqueda= session.query(model.User).filter(model.User.fullname==fullname).first()
             return(buesqueda)
         
         return None
-        
-    def modificar(self):
-        pass
+
    
-    def eliminar(self, username):
-        session.query(model.User).filter(model.User.username==username).delete()
-        session.commit()
-    
+    def eliminar(self, fullname):
+        if self.buscar(fullname )!=None:
+            session.query(model.User).filter(model.User.fullname==fullname).delete()
+            session.commit()
+            return True
+        
+        return False
