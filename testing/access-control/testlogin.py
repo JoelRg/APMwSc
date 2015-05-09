@@ -21,9 +21,10 @@ class TestLogin(unittest.TestCase):
     # VERIFICACION DE LA CLASE.
     
     # Test 1: Se crea el objeto clsLogin.
+    
     def test1ObjectExist(self):
-        tempLogin = clsLogin()
-        self.assertIsNotNone(tempLogin)
+        auxLogin = clsLogin()
+        self.assertIsNotNone(auxLogin)
 
     
     
