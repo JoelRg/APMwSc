@@ -1,23 +1,25 @@
 
-# Librerias a utilizar.
 
-import configdatabase 
+
+# Configuracion de la base de datos a utilizar.
+
+import settings
 
 from sqlalchemy.engine.url import URL
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 
+
 db = declarative_base()
 
 # Tablas de la base de datos a definir.
 
 # Tabla Usuario.
-
 class User(db):
     
     __tablename__ = 'user'
-    fullname = Column(String(50), unique = True)
+    fullname = Column(String(50), nullable = False)
     username = Column(String(16), primary_key = True)
     password = Column(String(16), nullable = False)
     email = Column(String(30), unique = True)
@@ -31,11 +33,8 @@ class User(db):
         self.email = email
         self.iddpt = iddpt
         self.idrole = idrole
-        
-        
 
 # Tabla Departamento.
-
 class Dpt(db):
     
     __tablename__ = 'dpt'
@@ -46,11 +45,8 @@ class Dpt(db):
     def __init__(self, iddpt, namedpt):
         self.iddpt = iddpt
         self.namedpt = namedpt
-        
-        
 
 # Tabla Role.
-
 class Role(db):
     
     __tablename__ = 'role'
@@ -62,15 +58,13 @@ class Role(db):
         self.idrole = idrole
         self.namerole = namerole
         
-        
-        
+
 # Se crea el motor que almacenara los datos en el directorio local.
-engine = create_engine(URL(**configdatabase.DATABASE))    
+engine = create_engine(URL(**settings.DATABASE))    
 
 #Se eliminnan las tablas previamente definidas
 db.metadata.drop_all(engine)
 
 # Se crean todas las tablas definidas en el motor antes construidos.
 db.metadata.create_all(engine)
-
 
