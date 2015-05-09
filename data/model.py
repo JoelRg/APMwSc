@@ -15,7 +15,8 @@ db = declarative_base()
 
 # Tablas de la base de datos a definir.
 
-# Tabla Usuario.
+# Usuario.
+
 class User(db):
     
     __tablename__ = 'user'
@@ -34,7 +35,8 @@ class User(db):
         self.iddpt = iddpt
         self.idrole = idrole
 
-# Tabla Departamento.
+# Departamento.
+
 class Dpt(db):
     
     __tablename__ = 'dpt'
@@ -46,7 +48,8 @@ class Dpt(db):
         self.iddpt = iddpt
         self.namedpt = namedpt
 
-# Tabla Role.
+# Role.
+
 class Role(db):
     
     __tablename__ = 'role'
@@ -62,7 +65,7 @@ class Role(db):
 # Se crea el motor que almacenara los datos en el directorio local.
 engine = create_engine(URL(**settings.DATABASE))    
 
-#Se eliminnan las tablas previamente definidas
+#Se eliminnan las tablas anteriormente definidas
 db.metadata.drop_all(engine)
 
 # Se crean todas las tablas definidas en el motor antes construidos.
