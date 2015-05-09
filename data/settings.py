@@ -11,7 +11,7 @@ DATABASE = {
         'host'       : 'localhost',
         'port'       : '5432',
         'username'   : 'postgres',      # Usuario de la base de datos
-        'password'   : '',              # Clave de la base de datos 
-        'database'   : 'JyA'            # Nombre de la base de datos
+        'password'   : 'joel123',       # Clave de la base de datos 
+        'database'   : 'JyA-USB'        # Nombre de la base de datos
 }
 
