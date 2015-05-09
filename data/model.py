@@ -1,8 +1,7 @@
 
 # Librerias a utilizar.
 
-
-import configdatabase
+from data import configdatabase
 
 from sqlalchemy.engine.url import URL
 from sqlalchemy.orm import relationship, backref
