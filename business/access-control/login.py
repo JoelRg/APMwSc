@@ -8,7 +8,7 @@ import uuid
 import hashlib
 import re 
  
-class clslogin(object):
+class clsLogin(object):
     
     def __init__(self):
         self.expRegular = ('(([0-9a-zA-Z]|[@.#$+*])*[A-Z]([0-9a-zA-Z]|[@.#$+*])*\d([0-9a-zA-Z]|[@.#$+*])*[@.#$+*])|'

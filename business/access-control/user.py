@@ -17,7 +17,7 @@ from sqlalchemy.orm import sessionmaker
 DBSession = sessionmaker(bind=model.engine)
 session = DBSession()
 
-class clsuser():
+class clsUser():
 
     """
         @brief Funcion que inserta un nuevo usuario a la base de datos

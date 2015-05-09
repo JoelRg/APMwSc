@@ -23,7 +23,7 @@ DBSession = sessionmaker(bind=model.engine)
 session = DBSession()
 
 
-class clsrole():
+class clsRole():
     
     def insertar(self,idrole,namerole):
         if self.buscar(idrole) == None:

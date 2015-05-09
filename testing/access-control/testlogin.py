@@ -9,7 +9,7 @@ Created on 8/5/2015
 import os
 import sys
 
-# PATH que permite utilizar los modulos a probar
+# PATH que permite utilizar al modulo "login.py"
 sys.path.append('../../business/access-control')
 from login import clsLogin
 
@@ -17,7 +17,8 @@ import unittest
 
 class TestLogin(unittest.TestCase):
     
-        # VERIFICACION DE LA CLASE.
+
+    # VERIFICACION DE LA CLASE.
     
     # Test 1: Se crea el objeto clsLogin.
     def test1ObjectExist(self):
