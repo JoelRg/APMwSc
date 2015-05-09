@@ -9,7 +9,6 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 
-
 db = declarative_base()
 
 # Tablas de la base de datos a definir.
