@@ -3,6 +3,7 @@
 
 import os
 import sys
+from sqlalchemy.sql.expression import except_
 
 # PATH que permite utilizar al modulo "model.py"
 
@@ -27,36 +28,54 @@ class clsUser():
         @return True si se inserta. De lo contrario False.
     """
         
-    def insertar(self, nuevoFullname, nuevoUsername,nuevoPassword, nuevoEmail, nuevoIddpt, nuevoIdrole):
-        if self.buscar(nuevofullname) == None:
-            nuevoUsuario=model.User(nuevoFullname, nuevoUsername,nuevoPassword, nuevoEmail, nuevoIddpt, nuevoIdrole)
-            session.add(nuevoUsuario)
-            session.commit()           
-            return True
+    def insertar(self,fullname, nuevoUsername,nuevoPassword, nuevoEmail, nuevoIddpt, nuevoIdrole):
+        
+        fullnameEsCadena = (type(fullname) == str)
+        if fullnameEsCadena:
+            if (self.buscar(fullname) == []):
+                try: # si hay problema
+                    nuevoUsuario=model.User(fullname, nuevoUsername,nuevoPassword, nuevoEmail, nuevoIddpt, nuevoIdrole)
+                    session.add(nuevoUsuario)
+                    session.commit()           
+                    return True
+                except: 
+                    return False
         
         return False
      
     
     def modificar(self, fullname,nuevoUsername,nuevoPassword, nuevoEmail, nuevoIddpt, nuevoIdrole):
         
-        if self.buscar(fullname) != None:
-            return self.eliminar(fullname) and self.insertar(Fullname, nuevoUsername, nuevoPassword, nuevoEmail, nuevoIddpt, nuevoIdrole)
+        if (self.buscar(fullname) == []):
+           return False
+       
+        try:
+            session.query(model.User).filter(model.User.fullname==fullname).\
+            update({'fullname':(fullname)},{'username':(nuevoUsername)},{'password':(nuevoPassword)},
+                   {'email':(nuevoEmail)},{'iddpt':(nuevoIddpt)},{'idrole':(nuevoIdrole)})
+            session.commit()
+            return True 
+        except:
+            return False
         
-        return False
+      
                 
     def buscar(self,fullname):
          
-        fullnameEsEntero = (type(fullname) == int)
+        fullnameEsCadena = (type(fullname) == str)
         
-        if(fullnameEsEntero):
-            busqueda= session.query(model.User).filter(model.User.fullname==fullname).first()
-            return(buesqueda)
-        
-        return None
+        if( fullnameEsCadena):
+            try:
+                busqueda= session.query(model.User).filter(model.User.fullname==fullname).all()
+                return busqueda
+            except:
+                return []
 
+        return []
    
     def eliminar(self, fullname):
-        if self.buscar(fullname )!=None:
+        
+        if not(self.buscar(fullname )==[]):
             session.query(model.User).filter(model.User.fullname==fullname).delete()
             session.commit()
             return True
