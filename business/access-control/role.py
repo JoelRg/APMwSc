@@ -18,41 +18,57 @@ session = DBSession()
 
 class clsRole():
     
-    def insertar(self,idrole,namerole):
-        if self.buscar(idrole) == None:
-            nuevoRole=model.Role(idrole,namerole)
-            session.add(nuevoRole)
-            session.commit()           
-            return True
-        
+    def insertar(self,idRole,nameRole):
+
+        idRoleEsEntero = (type(idRole) == int)
+        if idRoleEsEntero and idRole >=0:
+            if self.buscar(idRole) == []:
+                try: # Preguntamos si hay problemas
+                    nuevoRole=model.Role(idRole,nameRole)
+                    session.add(nuevoRole)
+                    session.commit()           
+                    return True
+                except: 
+                    return False
+            
         return False
-                
-    def buscar(self,idrole):
-         
-        idroleEsEntero = (type(idrole) == int)
+     
+    
+    def modificar(self, idRole,nameRole):
         
-        if(idroleEsEntero):
-            busqueda= session.query(model.Role).filter(model.Role.idrole==idrole).first()
-            return(buesqueda)
-        
-        return None
-        
-    def modificar(self,idrole,namerole):
-        
-        if (self.buscar(idrole)!=None): # vemos si existe
-            return self.eliminar(idrole) and self.insertar(idrole,namerole) #eliminamos e insertamos
+        if (self.buscar(idRole) == []):
+           return False
        
-        return False
+        try:
+            session.query(model.Role).filter(model.Role.idrole==idRole).\
+            update({'namerole':(nameRole)})
+            session.commit()
+            return True 
+        except:
+            return False
+        
+      
+                
+    def buscar(self,idRole):
+         
+        idRoleEsEntero = (type(idRole) == int)
+        
+        if idRoleEsEntero:
+            try:
+                busqueda= session.query(model.Role).filter(model.Role.idrole==idRole).all()
+                return busqueda
+            except: 
+                return []
+
+        return []
    
-    def eliminar(self,idrole):
-        if (self.buscar(idrole)!=None):  #Consultamos si esta la instancia a eliminar
-            # eliminamos
-            session.query(model.Role).filter(model.Role.idrole==idrole).delete()
+    def eliminar(self, idRole):
+        
+        if not(self.buscar(idRole )==[]):
+            session.query(model.Role).filter(model.Role.idrole==idRole).delete()
             session.commit()
             return True
-         
+        
         return False
-
-
     
     

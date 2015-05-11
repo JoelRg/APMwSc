@@ -21,39 +21,56 @@ session = DBSession()
 
 class clsDpt():
     
-    def insertar(self,iddpt,namedpt):
+    def insertar(self,idDpt,nameDpt):
         
-        if self.buscar(iddpt) == None:
-            nuevoDepartamento=model.Dpt(iddpt,namedpt)
-            session.add(nuevoDepartamento)
-            session.commit()           
-            return True
+        idDptEsEntero = (type(idDpt) == int)
+        if idDptEsEntero and idDpt >=0:
+            if self.buscar(idDpt) == []:
+                try: # Preguntamos si hay problemas
+                    nuevoDpt=model.Dpt(idDpt,nameDpt)
+                    session.add(nuevoDpt)
+                    session.commit()           
+                    return True
+                except: 
+                    return False
         
         return False
-                
-    def buscar(self,iddpt):
-         
-        iddptEsEntero = (type(iddpt) == int)
+     
+    
+    def modificar(self,idDpt,nameDpt):
         
-        if(iddptEsEntero):
-            busqueda= session.query(model.Dpt).filter(model.Dpt.iddpt==iddpt).first()
-            return(buesqueda)
-        
-        return None
-        
-    def modificar(self,iddpt,namedpt):
-        
-        if (self.buscar(iddpt)!=None): # vemos si existe
-            return self.eliminar(iddpt) and self.insertar(iddpt,namedpt) #eliminamos e insertamos
+        if (self.buscar(idDpt) == []):
+           return False
        
-        return False
+        try:
+            session.query(model.Dpt).filter(model.Dpt.iddpt==idDpt).\
+            update({'namedpt':(nameDpt)})
+            session.commit()
+            return True 
+        except:
+            return False
+        
+      
+                
+    def buscar(self,idDpt):
+         
+        idDptEsEntero = (type(idDpt) == int)
+        
+        if idDptEsEntero:
+            try:
+                busqueda= session.query(model.Dpt).filter(model.Dpt.iddpt==idDpt).all()
+                return busqueda
+            except: 
+                return []
+
+        return []
    
-    def eliminar(self,iddpt):
-        if (self.buscar(iddpt)!=None):  #Consultamos si esta la instancia a eliminar
-            # eliminamos
-            session.query(model.Dpt).filter(model.Dpt.iddpt==iddpt).delete()
+    def eliminar(self, idDpt):
+        
+        if not(self.buscar(idDpt )==[]):
+            session.query(model.Dpt).filter(model.Dpt.iddpt==idDpt).delete()
             session.commit()
             return True
-         
+        
         return False
-
+    

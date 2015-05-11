@@ -1,15 +1,9 @@
-'''
-Created on 8/5/2015
-
-@author: joel
-'''
-
 # Librerias a utilizar.
 
 import os
 import sys
 
-# PATH que permite utilizar al modulo "login.py"
+# PATH que permite utilizar al modulo "User.py"
 sys.path.append('../../business/access-control')
 from user import clsUser, session
 
@@ -18,8 +12,6 @@ sys.path.append('../../data')
 import model
 
 import unittest
-
-
 
 class TestUser(unittest.TestCase):
     
@@ -47,7 +39,7 @@ class TestUser(unittest.TestCase):
     ###CASOS FRONTERAS O DE DOMINIO    
     # test 2: Se inserta el usuario cuando la base de datos de Usuario esta vacia.    
     def test2insertar(self):
-        self.limpiarBaseDeDatos()        # Se limpia la base de datos
+        session.query(model.User).delete()  
         auxUser = clsUser()       
         
         IdRole = 21
@@ -91,34 +83,31 @@ class TestUser(unittest.TestCase):
         session.add(UsuarioPrueba)
         session.commit()      
            
-        self.assertFalse(auxUser.insertar('Joel Rivas','Hiruma32','joelriva34s','rivas34joel@gmail.com',21,21),"Correcto")  
+        self.assertFalse(auxUser.insertar(Fullname,'Hiruma32','joelriva34s','rivas34joel@gmail.com',21,21),"Correcto")         
 
 
-        
+       
      # test 4: Se inserta el usuario con fullname entero.   
     def test4insertar(self):
-        self.limpiarBaseDeDatos() 
-        auxUser = clsUser()       
-        
-        IdRole = 21
-        NameRole = 'rolprobando2'
+        auxUser2=clsUser() 
+        IdRole = 213
+        NameRole = 'rolprobaando2'
         RolePrueba = model.Role(IdRole, NameRole)     
         session.add(RolePrueba)
         session.commit()  
          
-        IdDpt = 21
-        NameDpt = 'dptprobando2'
+        IdDpt = 213
+        NameDpt = 'dptprobaando2'
         DptPrueba = model.Dpt(IdDpt, NameDpt)         
         session.add(DptPrueba)
         session.commit() 
            
-        self.assertFalse(auxUser.insertar(3433,'Hiruma','joelrivas','rivasjoel@gmail.com',21,21),"Correcto")
-       
+        self.assertFalse(auxUser2.insertar(3433,'Hiruma','joelrivas','rivassjoel@gmail.com',213,213),"Correcto")
         
+    
     ### CASOS MALICIOSOS   
     # test 5: Se inserta el usuario violando las restricciones de las claves foraneas  y la base de datos esta vacia  
     def test5insertar(self): 
-        self.limpiarBaseDeDatos() 
         auxUser = clsUser()       
                  
         self.assertFalse(auxUser.insertar('Joel Rivas','Hiruma','joelrivas','rivasjoel@gmail.com',21,21),"Correcto")
@@ -126,16 +115,17 @@ class TestUser(unittest.TestCase):
         # FUNCION MODIFICAR
     ###CASOS FRONTERAS O DE DOMINIO    
     # test 6: Se quiere modificar un usuario con la base de datos de Usuario vacia.
-    def test6modificar(self):
+    def test6modificarUserName(self):
+        self.limpiarBaseDeDatos()
         auxUser = clsUser()              
         IdRole = 21       
         IdDpt = 21
               
-        self.assertFalse(auxUser.modificar('Joel Rivas','Hiruma','joelrivas','rivasjoel@gmail.com',IdRole,IdDpt),"Correcto")
+        self.assertFalse(auxUser.modificarUserName('Joel Rivas','Hiruma'),"Correcto")
      
-    '''    
+       
     # test 7: Se modifica un usuario en la base de datos.
-    def test7modificar(self):
+    def test7modificarUserName(self):
         auxUser = clsUser()  
                 
         IdRole = 213
@@ -150,7 +140,7 @@ class TestUser(unittest.TestCase):
         session.add(DptPrueba2)
         session.commit() 
         
-        Fullname = 'Joel Rivas'
+        Fullname = 'Joel Rivas2'
         Username = 'Hiruma'
         Password = 'joelrivas'
         Email = 'rivasjoel@gmail.com'
@@ -158,6 +148,6 @@ class TestUser(unittest.TestCase):
         session.add(UsuarioPrueba)
         session.commit()      
           
-        self.assertTrue(auxUser.modificar('Joel Rivas','Hirumax','joevtlrivas','rivasjoel@gmail.com',213,213),"Correcto")
+        self.assertTrue(auxUser.modificarUserName(Fullname,'Hirumax'),"Correcto")
          
-      '''         
+           

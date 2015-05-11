@@ -14,10 +14,10 @@ class clsLogin(object):
                           '(([0-9a-zA-Z]|[@.#$+*])*[@.#$+*]([0-9a-zA-Z]|[@.#$+*])*[A-Z]([0-9a-zA-Z]|[@.#$+*])*\d)')
         
          
-    def encript(self, value):
+    def encriptar(self, value):
         
         oHash=""
-        olength_password=self.length_password(value)
+        olength_password=self.longitud(value)
         
         #Verifico el tamano
         
@@ -37,10 +37,10 @@ class clsLogin(object):
     
     def check_password(self, oPassworkEncript, oCheckPassword):
         # Verificar la longitud del password
-        olength_password=self.length_password(oCheckPassword)
+        olength_password=self.longitud(oCheckPassword)
         if olength_password>=8 and olength_password<=16: 
             # uuid es usado para generar numeros random
-            if oPassworkEncript == '':  #Si el oPassworkEncript es invalido
+            if oPassworkEncript == '' or oPassworkEncript==None:  #Si el oPassworkEncript es invalido
                 return False
             oPassworkEncript, salt = oPassworkEncript.split(':')
             return oPassworkEncript == hashlib.sha256(salt.encode() + oCheckPassword.encode()).hexdigest()
@@ -48,6 +48,6 @@ class clsLogin(object):
             # El Password no posee la cantidad de caracteres requerida
             return False
     
-    def length_password(self, user_password):
+    def longitud(self, user_password):
         # uuid es usado para generar numeros random
         return len(user_password)
