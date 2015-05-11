@@ -27,16 +27,11 @@ class TestUser(unittest.TestCase):
 
         
     def limpiarBaseDeDatos(self):
-        # Se limpia la base de datos.
-        try:
-            session.query(model.User).delete()
-            session.commit()   
-            session.query(model.Dpt).delete() 
-            session.commit() 
-            session.query(model.Role).delete() 
-            session.commit()  
-        except:
-            print("Problema al limpiar base de datos....")
+        # Se limpia la base de datos.      
+        session.query(model.User).delete()
+        session.query(model.Dpt).delete() 
+        session.query(model.Role).delete() 
+      
                 
               
         # VERIFICACION DE LA CLASE.
@@ -137,7 +132,7 @@ class TestUser(unittest.TestCase):
         IdDpt = 21
               
         self.assertFalse(auxUser.modificar('Joel Rivas','Hiruma','joelrivas','rivasjoel@gmail.com',IdRole,IdDpt),"Correcto")
-         
+     '''    
     # test 7: Se modifica un usuario en la base de datos.
     def test7modificar(self):
         auxUser = clsUser()  
@@ -162,6 +157,6 @@ class TestUser(unittest.TestCase):
         session.add(UsuarioPrueba)
         session.commit()      
           
-        self.assertTrue(auxUser.modificar('Joel Rivas','Hirumax','joelrivas','rivasjoel@gmail.com',213,213),"Correcto")
+        self.assertTrue(auxUser.modificar('Joel Rivas','Hirumax','joevtlrivas','rivasjoel@gmail.com',213,213),"Correcto")
          
-                            
+      '''         
