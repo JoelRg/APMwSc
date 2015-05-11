@@ -20,9 +20,10 @@ class TestRole(unittest.TestCase):
     # VERIFICACION DE LA CLASE.
     
     # Test 1: Se crea el objeto clsRole.
+    
     def test1ObjectExist(self):
-        tempRole = clsRole()
-        self.assertIsNotNone(tempRole)
+        auxRole = clsRole()
+        self.assertIsNotNone(auxRole)
         session.query(model.Role).delete()  # Se limpia la base de datos.
     
     
