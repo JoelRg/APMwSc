@@ -132,7 +132,8 @@ class TestUser(unittest.TestCase):
         IdDpt = 21
               
         self.assertFalse(auxUser.modificar('Joel Rivas','Hiruma','joelrivas','rivasjoel@gmail.com',IdRole,IdDpt),"Correcto")
-     '''    
+     
+    '''    
     # test 7: Se modifica un usuario en la base de datos.
     def test7modificar(self):
         auxUser = clsUser()  
